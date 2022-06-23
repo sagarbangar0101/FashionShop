@@ -1,0 +1,79 @@
+package com.info.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.info.exception.EventsNotFoundException;
+import com.info.model.Events;
+import com.info.service.EventService;
+
+@Controller
+
+public class EventController {
+//	<--Events-->
+	@Autowired
+	private EventService service1;
+	
+	@GetMapping("/events")
+	public String showCouponsList1(Model model) {
+		List<Events> listEvents = service1.listAll();
+		model.addAttribute("listEvents", listEvents);
+		
+		return "Events";
+	}
+	
+	@GetMapping("/events/new")
+	public String showNewForm1(Model model) {
+		model.addAttribute("events",new Events());
+		model.addAttribute("pageTitle", "Add New Event");
+		return "Events_Form";
+		
+	}
+	
+	@PostMapping("/events/save")
+	public String saveCoupon(Events events, RedirectAttributes ra) {
+		try {
+		service1.save(events);
+		ra.addAttribute("message", "The event has been added successfully.");
+		
+		}
+		catch(Exception e)
+		{
+			ra.addFlashAttribute("message", "The event is already present.");
+		}
+		return "redirect:/events";
+	}
+	
+	@GetMapping("/events/edit/{Eid}")
+	public String showEditForm1(@PathVariable("Eid") Long Eid, Model model, RedirectAttributes ra) {
+		try {
+			Events events = service1.get(Eid);
+			model.addAttribute("events", events);
+			model.addAttribute("pageTitle", "Edit Event (Id: "+ Eid +")");
+			return "Events_Form";
+		}
+		catch(EventsNotFoundException e) {
+			ra.addFlashAttribute("message", "The event has been saved successfully");
+			return "redirect:/events";
+		}
+	}
+	
+	@GetMapping("/events/delete/{Eid}")
+	public String deleteCoupons(@PathVariable("Eid") Long Eid, Model model, RedirectAttributes ra) {
+		try {
+			service1.delete(Eid);
+		}
+		catch(EventsNotFoundException e) {
+			ra.addFlashAttribute("message", e.getMessage());
+		}
+		return "redirect:/events";
+	}
+
+}
