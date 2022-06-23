@@ -1,0 +1,139 @@
+package com.info.controller;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.info.model.CartItem;
+import com.info.model.Product;
+import com.info.model.User;
+import com.info.service.ProductService;
+import com.info.service.UserService;
+
+@Controller
+@RequestMapping("profile")
+public class ProfileController {
+	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private UserService userService;
+
+	private long productId;
+	
+	@GetMapping("cart-product")
+	public ModelAndView cartProduct(Principal principal) {
+		ModelAndView mv = new ModelAndView("profile/cart-product");
+		User user = userService.findByEmail(principal.getName());
+		mv.addObject("user", user);
+		int total = findSum(user);
+		mv.addObject("total", total);
+		return mv;
+	}
+	
+	private int findSum(User user) {
+		List<Product> list = user.getProductList();
+		int sum =0;
+		for(int i=0; i<list.size(); i++) {
+			Product p = list.get(i);
+			sum+=p.getProductPrice();
+			CartItem c = new CartItem();
+			sum+=(sum)*c.getQuantity();
+		}
+		return sum;
+	}
+	
+	 
+	@GetMapping("removeToCart/{productId}")
+	public ModelAndView removeToCart(@PathVariable("productId")String productId,Principal principal) {
+		ModelAndView mv = new ModelAndView("profile/cart-product");
+		User user = userService.findByEmail(principal.getName());
+		long productLongId = Long.parseLong(productId);
+		Product product = productService.getProductById(productLongId).get();
+		
+		List<Product> productList = new ArrayList<Product>();
+		productList.remove(product);
+		user.setProductList(productList);
+		
+		List<User> userList = new ArrayList<>();
+		userList.remove(user);
+		product.setUserList(userList);
+		
+		userService.update(user);
+		productService.removeProduct(product);
+		int total = findSum(user);
+		mv.addObject("total", total);
+		mv.addObject("user", user);
+		return mv;
+	}
+	
+	 
+	
+
+	
+	/*
+	 * @GetMapping("/cart") public String cartGet(Model model) {
+	 * model.addAttribute() }
+	 */
+	
+
+	
+	
+	@GetMapping("addToCart/{productId}")
+	public ModelAndView addToCart(@PathVariable("productId")String productId,Principal principal) {
+		ModelAndView mv = new ModelAndView("profile/cart-product");
+		User user = userService.findByEmail(principal.getName());
+		long productLongId = Long.parseLong(productId);
+		Product product = productService.getProductById(productLongId).get();
+		
+		List<Product> productList = new ArrayList<Product>();
+		productList.add(product);
+		user.setProductList(productList);
+		
+		List<User> userList = new ArrayList<>();
+		userList.add(user);
+		product.setUserList(userList);
+		
+		userService.update(user);
+		productService.addProduct(product);
+		int total = findSum(user);
+		mv.addObject("total", total);
+		mv.addObject("user", user);
+		return mv;
+	}
+	
+	
+	/*
+	 * @GetMapping("/addToCart") public String addToCart(HttpSession session ,Model
+	 * model,@RequestParam("productId") Long id,
+	 * 
+	 * @RequestParam("quantity") int quantity) {
+	 * 
+	 * //sessionToken String sessionToken = (String)
+	 * session.getAttribute("sessionToken"); if(sessionToken==null) {
+	 * session.setAttribute("sessionToken", UUID.randomUUID().toString());
+	 * ShoppingCart shoppingCart = new ShoppingCart(); CartItem cartItem = new
+	 * CartItem(); cartItem.setQuantity(quantity); cartItem.setDate(new Date());
+	 * 
+	 * cartItem.setProduct(productService.getProductById(productId));
+	 * shoppingCart.getItems().add(cartItem);
+	 * 
+	 * } else return "redirect:/" }
+	 */
+	 
+	 
+	
+}
