@@ -1,0 +1,12 @@
+package com.info.exception;
+
+public class EventsNotFoundException extends Throwable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public EventsNotFoundException(String message) {
+		super(message);
+		}
+}
