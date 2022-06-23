@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments.html :: headerfiles">
+<meta charset="ISO-8859-1">
+<!-- MATERIAL DESIGN ICONIC FONT -->
+		<link rel="stylesheet" th:href="@{fonts/material-design-iconic-font/css/material-design-iconic-font.min.css}" ></link>
+		<!-- Favicon -->
+		<link th:href="@{img/favicon.ico}" rel="shortcut icon"></link>
+
+		<!-- Google Font -->
+		<link th:href="@{https://fonts.googleapis.com/css?family=Josefin+Sans:300,300i,400,400i,700,700i}" rel="stylesheet" ></link>
+		<!-- STYLE CSS -->
+<link th:href="@{/css/style.css}" rel="stylesheet" ></link>
+</head>
+
+<style>
+
+.Category {
+background-color:#b8e6e8;
+}
+body {
+	border:2px solid;
+	padding:20px 20px 20px 20px;
+}
+.d-flex justify-content-start p-2 {
+background:#b8e6e8
+}
+
+</style>
+<body style="background-color:#95a09a;">
+	<header th:insert="fragments.html :: nav"></header>
+	<div >
+		<!-- <h1 style="color:violet;" class="display-5">Product Overview</h1> -->
+        <div class="Category">
+		<div class="d-flex justify-content-start p-2">
+
+			<a class="list-group-item mr-2" href="#" th:href="@{/allProduct}">All
+				Product</a> 
+			<a class="list-group-item mr-2"	th:each="category : ${categoryList}"
+				th:text="${category.categoryName}" href="#" th:href="@{'/getProducts/' + ${category.categoryId}}"></a>
+		</div>
+		</div>
+		
+		 <div>
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="../images/amazon1.jpg" alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="../images/amg1.jpg" alt="Second slide">
+    </div>
+     <div class="carousel-item ">
+      <img class="d-block w-100" src="../images/amazon1.jpg" alt="Third slide">
+    </div>
+   
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+    </div>
+    
+    
+    
+    
+        
+		<div class="row product-list" >
+		
+			<div class="col-md-3 mb-4" th:each="product : ${productList}">
+				<div class="product py-4">
+				<div class="text-center">
+				<img th:src="${product.image}" class="card-img-top" width="200" height="400" alt="Product Image">	
+				</div>
+					<div class="about text-center" style="background:white; border:1px solid green;">
+						<h5 th:text="${product.productName}" class="card-title"><b></b></h5>
+						
+						<p th:text="${product.productDescription}" class="card-text"></p>
+						<b><span th:text="'Rs. '+${product.productPrice}" class="card-text" style="margin-right:80px;"></span></b>
+						<a href="#" th:href="@{'~/profile/addToCart/' + ${product.productId}}" class="btn btn-primary">AddToCart</a>
+ 					  
+					</div>
+					
+					
+					<!-- 
+						<div
+														class="cart-button mt-3  d-flex justify-content-between align-items-center">
+														<button class="btn btn-primary text-uppercase"
+															data-toggle="modal"
+															th:attr="data-target='#exampleModalCenterfeatured'+${product.productId}">Add
+															to cart</button>
+														Modal
+														<div class="modal fade"
+															id="staticBackdrop"
+															data-backdrop="static" data-keyboard="false"
+															tabindex="-1" aria-labelledby="staticBackdropLabel"
+															aria-hidden="true">
+															<div class="modal-dialog modal-dialog-centered">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h5 class="modal-title" id="staticBackdropLabel">add
+																			to cart</h5>
+																		<button type="button" class="close"
+																			data-dismiss="modal" aria-label="Close">
+																			<span aria-hidden="true">&times;</span>
+																		</button>
+																	</div>
+																	<div class="modal-body">
+                                                                       
+																		<div class="modal-footer">
+																			<img
+																				th:src="${product.image}"
+																				height="250px" class="card-img-top" alt="...">
+																			<div class="card-body">
+																				<form action="/addToCart" method="POSt">
+																					<input type="hidden" name="id"
+																						th:value="${{product.productId}}" /> <input type="number"
+																						min="1" value="1" name="quantity"
+																						class="form-control" placeholder="quantity" />
+																					<button type="submit" class="btn btn-primary mt-2">
+																						submit</button>
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+
+																</div>
+															</div>
+														</div>
+														 -->
+														
+				</div>
+			</div>
+		</div>
+		</div>
+
+	</div>
+
+	<hr>
+	
+	
+	
+    
+    
+	
+	
+	<!-- Footer section -->
+	<section class="footer-section" style="background-color:#67615e; color:white;">
+		<div class="container">
+			<div class="footer-logo text-center">
+				<a href="index.html"><img src="./img/white 1.png" alt=""></img></a>
+			</div>
+			<div class="row">
+				<div class="col-lg-3 col-sm-6">
+					<div class="footer-widget about-widget">
+						<h2>About</h2>
+						<p>Quality fasion products from our factory outlet.</p>
+						<img src="img/cards.png" alt=""></img>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-6">
+					<div class="footer-widget about-widget">
+						<h2>Get To Know Us</h2>
+						<ul>
+							<li><a href="">About Us</a></li>
+							<li><a href="">Track Orders</a></li>
+							<li><a href="">Returns</a></li>
+							<li><a href="">Jobs</a></li>
+							<li><a href="">Shipping</a></li>
+							<li><a href="">Blog</a></li>
+						</ul>
+						<ul>
+							<li><a href="">Partners</a></li>
+							<li><a href="">Bloggers</a></li>
+							<li><a href="">Support</a></li>
+							<li><a href="">Terms of Use</a></li>
+							<li><a href="">Press</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-6">
+					<div class="footer-widget about-widget">
+						<h2>Let Us Help You</h2>
+						<ul>
+							<li><a href="">Your Account</a></li>
+							<li><a href="">Return Centers</a></li>
+							<li><a href="">100% purchase protection</a></li>
+							<li><a href="">Download FashionHub App</a></li>
+							<li><a href="">Help</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-sm-6">
+					<div class="footer-widget contact-widget">
+						<h2>Questions</h2>
+						<div class="con-info">
+							<span>C.</span>
+							<p>Your Company Ltd </p>
+						</div>
+						<div class="con-info">
+							<span>B.</span>
+							<p>1481 Creekside Lane  Avila Beach, CA 93424, P.O. BOX 68 </p>
+						</div>
+						<div class="con-info">
+							<span>T.</span>
+							<p>+53 345 7953 32453</p>
+						</div>
+						<div class="con-info">
+							<span>E.</span>
+							<p>office@youremail.com</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="social-links-warp">
+			<div class="container">
+				<div class="social-links">
+					<a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
+					<a href="" class="google-plus"><i class="fa fa-google-plus"></i><span>g+plus</span></a>
+					<a href="" class="pinterest"><i class="fa fa-pinterest"></i><span>pinterest</span></a>
+					<a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
+					<a href="" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
+					<a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>
+					<a href="" class="tumblr"><i class="fa fa-tumblr-square"></i><span>tumblr</span></a>
+				</div>
+
+			</div>
+		</div>
+	</section>
+	
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+	<script src="/src/js/common.js"></script>
+	<script>
+	
+var categories = ["Select a Category", "Women", "Men", "kids"];
+var Women = ["Select Electronics", "Sony Speaker", "Neckband"];
+var footwear = ["Select Footwear", "Nike Casuals", "Lee Boot"];
+var fashion = ["Select Fashion", "Winter Jacket", "Backpack"];
+var products = [];
+    
+var data = [
+    {Name: "Sony Speaker", Price: 4500.44, Photo: "../images/dress1.jpg"},
+    {Name: "Neckband", Price: 6200.44, Photo: "../images/men1.jpg"},
+    {Name: "Nike Casuals", Price: 7000.44, Photo: "../public/images/shoe.jpg"},
+    {Name: "Lee Boot", Price: 2300.44, Photo: "../public/images/shoe1.jpg"},
+    {Name: "Winter Jacket", Price: 2500.44, Photo: "../public/images/jacket.jpg"},
+    {Name: "Backpack", Price: 3500.44, Photo: "../public/images/backpack.jpg"},
+    
+];
+
+const productObjectList = [
+    {
+        id: 1,
+        image: '../images/dress1.jpg',
+        productName: 'Dress1',
+        productSubtitle: '50% Off on selected',
+        price: '1000',
+        inStock: 'Available'
+    },
+    {
+        id: 2,
+        image: '../images/dress3.jpg',
+        productName: 'Dress 2',
+        productSubtitle: '25% Off on selected',
+        price: '2000',
+        inStock: 'Available'
+    },
+    {
+        id: 3,
+        image: '../images/dress1.jpg',
+        productName: 'Dress 3',
+        productSubtitle: '50% Off on selected',
+        price: '3000',
+        inStock: 'Available'
+    },
+    {
+        id: 4,
+        image: '../images/dress4.jpg',
+        productName: 'Dress4',
+        productSubtitle: '50% Off on selected',
+        price: '4000',
+        inStock: 'Available'
+    },
+    {
+        id: 5,
+        image: '../images/men1.jpg',
+        productName: 'Shirt1',
+        productSubtitle: '50% Off on selected',
+        price: '5000',
+        inStock: 'Available'
+    },
+    {
+        id: 6,
+        image: '../images/men3.jpg',
+        productName: 'Shirt2',
+        productSubtitle: '50% Off on selected',
+        price: '10000',
+        inStock: 'Available'
+    },
+    {
+        id: 7,
+        image: '../images/men3.jpg',
+        productName: 'Shirt3',
+        productSubtitle: '50% Off on selected',
+        price: '5600',
+        inStock: 'Available'
+    },
+    {
+        id: 8,
+        image: '../images/men1.jpg',
+        productName: 'shirt4',
+        productSubtitle: '50% Off on selected',
+        price: '50000',
+        inStock: 'Available'
+    },
+    {
+        id: 9,
+        image: '../images/kid1.jpg',
+        productName: 'shirt4',
+        productSubtitle: '50% Off on selected',
+        price: '50000',
+        inStock: 'Available'
+    },
+    {
+        id: 10,
+        image: '../images/kid2.jpg',
+        productName: 'shirt4',
+        productSubtitle: '50% Off on selected',
+        price: '50070',
+        inStock: 'Available'
+    },
+    {
+        id: 11,
+        image: '../images/kid3.jpg',
+        productName: 'shirt4',
+        productSubtitle: '50% Off on selected',
+        price: '5000',
+        inStock: 'Available'
+    },
+    {
+        id: 12,
+        image: '../images/kid4.jpg',
+        productName: 'shirt4',
+        productSubtitle: '50% Off on selected',
+        price: '5700',
+        inStock: 'Available'
+    },
+];
+
+function LoadProducts(){
+    document.getElementById("lstProducts").innerHTML="";
+    for(var item of products)
+    {
+        var option = document.createElement("option");
+        option.text = item;
+        option.value = item;
+        document.getElementById("lstProducts").appendChild(option);
+    }
+}
+
+function LoadCategories(){
+    for(var item of categories)
+    {
+        var option = document.createElement("option");
+        option.text = item;
+        option.value = item;
+        document.getElementById("lstCategories").appendChild(option);
+    }
+}
+
+function bodyload(){
+    // LoadCategories();
+    GetCartCount();
+    getProductList();
+}
+function CategoryChanged(){
+    var categoryname = document.getElementById("lstCategories").value;
+    switch(categoryname)
+    {
+        case "Electronics":
+        products = electronics;
+        LoadProducts();
+        break;
+        case "Footwear":
+        products = footwear;
+        LoadProducts();
+        break;
+        case "Fashion":
+        products= fashion;
+        LoadProducts();
+        break;
+        default:
+        products = ["Please Select Category"];
+        LoadProducts();
+        break;
+    }
+}
+var searchedProduct;
+function ProductChanged(){
+    var productname = document.getElementById("lstProducts").value;
+    searchedProduct = data.find(function(product){
+        return product.Name==productname;
+    });
+    document.getElementById("pic").src= searchedProduct.Photo;
+    document.getElementById("productName").innerHTML = searchedProduct.Name;
+    document.getElementById("productPrice").innerHTML = searchedProduct.Price;
+}
+var cartItems = [];
+function GetCartCount(){
+
+    let cartItems = JSON.parse(localStorage.getItem(' '));
+    console.log(cartItems);
+    if (cartItems != null) {
+        document.getElementById("count").innerHTML = cartItems.length;
+    } else {
+        document.getElementById("count").innerHTML = 0;
+    }
+    
+}
+function AddToCartClick(event) {
+    console.log('event ', event);
+    cartItems.push(productObjectList[event]);
+    alert("Item Added to Cart");
+    // let cartItemsList = JSON.parse(localStorage.getItem('cartItems'));
+    // cartItems.push(cartItemsList);
+    GetCartCount();
+
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+}
+function showCartDetails() {
+
+    window.location.href = 'pages/cart-list.html';
+    // document.getElementById("cart").style.display = "block";
+    // document.querySelector("tbody").innerHTML = "";
+    // for(let item of cartItems)
+    // {
+    //     var tr = document.createElement("tr");
+    //     var tdName = document.createElement("td");
+    //     var tdPrice = document.createElement("td");
+    //     var tdPhoto = document.createElement("td");
+        
+    //     tdName.innerHTML = item.Name;
+    //     tdPrice.innerHTML = item.Price;
+        
+    //     var img = document.createElement("img");
+    //     img.src=item.Photo;
+    //     img.width="50";
+    //     img.height="50";
+        
+    //     tdPhoto.appendChild(img);
+        
+    //     tr.appendChild(tdName);
+    //     tr.appendChild(tdPrice);
+    //     tr.appendChild(tdPhoto);
+        
+    //     document.querySelector("tbody").appendChild(tr);
+    // }
+}
+
+function getProductList() {
+
+    
+    let productList = document.querySelector(".product-list");
+
+    let htmlList = [];
+    for (let i = 0; i < productObjectList.length; i++) {
+        console.log(productObjectList[i]);
+        htmlList += '<div class="col-3">'+
+                        '<div class="card p-2 m-2">'+
+                            '<img class="card-img-top" src="'+productObjectList[i].image+'" height="200">'+
+                            '<div class="card-header">'+
+                                '<h3 class="card-title">'+ productObjectList[i].productName +'</h3>'+
+                                '<p class="card-subtitle">'+ productObjectList[i].productSubtitle +'</p>'+
+                            '</div>'+
+                            '<div class="card-body">'+
+                                '<dl>'+
+                                    '<dt>Price</dt>'+
+                                    '<dd>'+ productObjectList[i].price +'</dd>'+
+                                    '<dt>Stock</dt>'+
+                                    '<dd>'+ productObjectList[i].inStock +'</dd>'+
+                                '</dl>'+
+                                '<a class="card-link" href="#">more..</a>'+
+                            '</div>'+
+                            '<div class="card-footer">'+
+                                '<button onclick=\'AddToCartClick(\"' + i + '\");\'  class="btn btn-danger w-100">'+
+                                    '<span class="bi bi-cart4"></span> Add to Cart'+
+                                '</button>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>';
+        // htmlList.append(list);
+    }
+    if (htmlList.length > 0) {
+        productList.innerHTML = htmlList;
+    }
+}
+</script>
+	
+</body>
+</html>
