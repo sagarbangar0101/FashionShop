@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments.html :: headerfiles">
+
+</head>
+<style>
+h1 {
+font-weight:bold;
+}
+table,th,td {
+font-weight:bold;
+border:2px double green;
+}
+thead{
+background-color:violet; 
+font-size:25px;
+
+}
+td {
+background-color:#fff; 
+font-size:20px;
+
+text-align:center;
+}
+body {
+   background-image:url('/images/product.jpg'); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size:cover;
+}
+
+</style>
+<body>
+
+	<header th:insert="fragments.html :: nav"></header>
+	<div class="container">
+	
+	<br>
+	<a th:href = "@{/manager/addProduct}" class="btn btn-primary btn-sm mb-3"> Add Product </a>
+	
+
+		
+		 <h1>Product List</h1>
+
+		<table  class="table my-5">
+			<thead >
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Image</th>
+					<th scope="col">Product Name</th>
+					<th scope="col">Description</th>
+					<th scope="col">Price</th>
+					<th scope="col">No. of Unit</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="product : ${productList}">
+					<th style="background-color:#FFF;" scope="row" th:text="${product.productId}"></th>
+					<td><img th:src="${product.image}" width="300px"></td>
+					<td th:text="${product.productName}"></td>
+					<td th:text="${product.productDescription}"></td>
+					<td th:text="${product.productPrice}"></td>
+					<td th:text="${product.productUnit}"></td>
+					<td>
+					<a href="#"
+						th:href="@{'/manager/updateProduct/'+ ${product.productId}}"
+						class="btn btn-danger">Update</a><br><br>
+						
+					<a href="#"
+						th:href="@{'/manager/delete-Product/'+ ${product.productId}}"
+						class="btn btn-danger">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<a th:href = "@{/manager/index}" class="btn btn-primary btn-sm mb-3"> admin Dashboard </a>
+
+ 		
+	</div>
+	
+  
+
+
+</body>
+</html>
