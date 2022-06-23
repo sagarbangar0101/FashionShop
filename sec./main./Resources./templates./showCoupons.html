@@ -1,0 +1,150 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Coupon Management System</title>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container my-2">
+	<h1>Coupon List</h1>
+	
+	
+	<a th:href = "@{/showNewCouponForm}" class="btn btn-primary btn-sm mb-3"> Add Coupon </a>
+	
+	
+		<table border="1" class = "table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>
+						<a th:href="@{'/page/' + ${currentPage} + '?sortField=productName&sortDir=' + ${reverseSortDir}}">
+							Coupon id</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=productPrice&sortDir=' + ${reverseSortDir}}">
+							Coupon Name</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=productCategory&sortDir=' + ${reverseSortDir}}">
+							Coupon Discount(%)</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=productDescription&sortDir=' + ${reverseSortDir}}">
+							category id</a>
+					</th>
+					<th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=productPrice&sortDir=' + ${reverseSortDir}}">
+							description</a>
+					</th>
+					  <th>
+					<a th:href="@{'/page/' + ${currentPage} + '?sortField=productStock&sortDir=' + ${reverseSortDir}}">
+							Event id</a>
+					</th>
+					
+					<th> Actions </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="coupon : ${listCoupons}">
+					<td th:text="${coupon.cid}"></td>
+					<td th:text="${coupon.couponName}"></td>
+					<td th:text="${coupon.couponDiscount}"></td>
+					<td th:text="${coupon.categoryId}"></td>
+					<td th:text="${coupon.couponDis}"></td>
+					<td th:text="${coupon.eventId}"></td>
+					 <!--<td>
+					   <img th:src="${product.productStock}" width="150" height="160">
+					  <img th:attr="src=@{${product.productStock}} ,  alt=#{background}"
+     width="20" height="20"/>
+					 </td> -->
+					<td> <a th:href="@{/showFormForUpdateCoupon/{id}(id=${coupon.cid})}" class="btn btn-primary">Update</a>
+					    <a th:href="@{/deleteCoupon/{id}(id=${coupon.cid})}" class="btn btn-danger">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<hr>
+		
+		<a th:href = "@{/manager/index}"> Back to Admin Dashboard</a>
+		
+		<div th:if = "${totalPages > 1}">
+			<div class = "row col-sm-10">
+				<div class = "col-sm-2">
+					Total Rows: [[${totalItems}]] 
+				</div>
+				<div class = "col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+				</div>
+				<div class = "col-sm-1">
+					<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+					<span th:unless="${currentPage < totalPages}">Next</span>
+				</div>
+				
+				 <div class="col-sm-1">
+    				<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+					<span th:unless="${currentPage < totalPages}">Last</span>
+   				 </div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
+body {
+   background-image:url('/images/backevent.jpg'); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size:cover;
+}
+
+table {
+  border-collapse: collapse;
+  margin-left: 50px;
+  margin-right: 50px;
+  
+  width: 90%;
+  table-layout: fixed;
+  border-spacing: 0 15px;
+  font-size:20px;
+}
+
+table tr {
+  background-color: #8fb3e0;
+  border: 1px solid #0c8748!important;
+  padding: .35em;
+  margin-bottom: 10px;
+}
+
+table th,
+table td {
+  padding: 1.5em;
+  text-align: left;
+  font-size:20px;
+
+}
+
+table th {
+  font-size: .85em;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+
+</style>
+
+
+</body>
+</html>
