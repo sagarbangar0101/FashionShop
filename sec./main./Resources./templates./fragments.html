@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!-- Fragment #1 : Headerfiles contains css and js references -->
+<head th:fragment="headerfiles">
+<title>Online-Shop</title>
+ 
+ <link th:href="@{~/bootstrap.min.css}" rel="stylesheet"> 
+ <link th:href="@{~/fontawesome/css/all.css}" rel="stylesheet">
+  <link th:href="@{~/css/search.css}" rel="stylesheet">
+ 
+</head>
+<style>
+#navbarSupportedContent {
+height:80px;
+width:80px;
+}
+	
+</style>
+
+ <body>
+
+	<div th:fragment="nav" >
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			
+			
+			<div class="col-lg-2 text-center text-lg-left">
+						
+						<a href="./fragments.html" class="site-logo" style="float:left;">
+							<img src="/images/logon.png" alt=""></img>
+						</a>
+					</div>
+					
+			<h2>FashionHub</h2>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item" style="height:10px;"><a class="nav-link" href="#"
+						th:href="@{/index}"><i class="fa fa-home mr-2"></i><h5>Home</h5></a></li>
+					
+					<li sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')"
+						class="nav-item"><a class="nav-link" href="#"
+						th:href="@{/manager/index}"><h5>Admin <br>Dashboard</h5></a></li>
+					
+					  	<li class="nav-item">
+					  
+						 <div class="input-group mb-3 mt-3 search-field-width">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">All</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <div class="input-group-append">
+                    <span class="input-group-text bg-warning"></span>  <span class="bi bi-search "></span>
+                    <div class="btn-group"></div>
+                </div>
+            </div>
+						</li>
+						
+		 
+        
+							
+				</ul>
+				<ul class="nav my-auto mr-4 bigger">
+					<li class="nav-item"><a href="#" class="text-info" th:href="@{/profile/cart-product}"><i class="fas fa-shopping-cart" ></i><h4>Cart</h4></a></li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0" form-method="post"
+					th:action="@{/logout}">
+					<button sec:authorize="isAuthenticated()"
+						class="btn btn-outline-danger my-2 my-sm-0 btn-sm"  type="submit">
+						Logout</button>
+					<button sec:authorize="isAnonymous()" th:href="@{~/login}"
+						class="btn btn-outline-info my-2 my-sm-0 btn-sm" type="submit">Login</button>
+				</form>
+			</div>
+			</div>
+		
+ 
+	
+	
+	</nav>
+
+</body>
+</html>
